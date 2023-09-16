@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "131254218811",
+    "project_id": "livstream-648d3",
+    "storage_bucket": "livstream-648d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131254218811:android:b37b674d26347300cdac1e",
+        "android_client_info": {
+          "package_name": "com.example.livstream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131254218811-7fid05fits01esn55hq5vakj1bd82ici.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.livstream",
+            "certificate_hash": "27b77da5ec8ac61bd9bd42005a46f01e6b06810e"
+          }
+        },
+        {
+          "client_id": "131254218811-gpm0gov3o1ff0bp10cq1sbp81g3hnjn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7gdneUZmY8WJkNFBL_aXRsOA1SJB7cGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131254218811-gpm0gov3o1ff0bp10cq1sbp81g3hnjn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
