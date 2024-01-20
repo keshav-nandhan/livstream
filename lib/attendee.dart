@@ -5,9 +5,11 @@ import 'package:livstream/message.dart';
 import 'package:livstream/model.dart';
 import 'package:flutter/material.dart';
 
-import 'package:agora_rtc_engine/rtc_engine.dart';
-import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
-import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:agora_rtc_engine/src/render/video_view_controller.dart'
+    as RtcLocalView;
+import 'package:agora_rtc_engine/src/render/agora_video_view.dart'
+    as RtcRemoteView;
 
 class ParticipantPage extends StatefulWidget {
   final String channelName;
@@ -33,14 +35,13 @@ class _BroadcastPageState extends State<ParticipantPage> {
   bool muted = false;
   bool videoDisabled = false;
   bool activeUser = false;
-  
-  String appId="";
+
+  String appId = "";
 
   @override
   void dispose() {
     _channel?.leave();
     _client?.logout();
-    _client?.destroy();
     _users.clear();
     _engine.destroy();
 
@@ -101,7 +102,10 @@ class _BroadcastPageState extends State<ParticipantPage> {
       print("Private Message from " + peerId + ": " + (message.text ?? "null"));
     };
     _client?.onConnectionStateChanged = (int state, int reason) {
-      print('Connection state changed: ' + state.toString() + ', reason: ' + reason.toString());
+      print('Connection state changed: ' +
+          state.toString() +
+          ', reason: ' +
+          reason.toString());
       if (state == 5) {
         _channel?.leave();
         _client?.logout();
@@ -113,16 +117,20 @@ class _BroadcastPageState extends State<ParticipantPage> {
 
     _channel = await _client?.createChannel(widget.channelName);
     await _channel?.join();
-    print("UID when joining int ${widget.uid} and string ${widget.uid.toString()}");
-    await _engine.joinChannel(null, widget.channelName, null, widget.uid, ChannelMediaOptions());
+    print(
+        "UID when joining int ${widget.uid} and string ${widget.uid.toString()}");
+    await _engine.joinChannel(
+        null, widget.channelName, null, widget.uid, ChannelMediaOptions());
 
     _channel?.onMemberJoined = (AgoraRtmMember member) {
-      print("Member joined: " + member.userId + ', channel: ' + member.channelId);
+      print(
+          "Member joined: " + member.userId + ', channel: ' + member.channelId);
     };
     _channel?.onMemberLeft = (AgoraRtmMember member) {
       print("Member left: " + member.userId + ', channel: ' + member.channelId);
     };
-    _channel?.onMessageReceived = (AgoraRtmMessage message, AgoraRtmMember member) {
+    _channel?.onMessageReceived =
+        (AgoraRtmMessage message, AgoraRtmMember member) {
       List<String> parsedMessage = message.text!.split(" ");
       switch (parsedMessage[0]) {
         case "mute":
@@ -163,7 +171,10 @@ class _BroadcastPageState extends State<ParticipantPage> {
           break;
         default:
       }
-      print("Public Message from " + member.userId + ": " + (message.text ?? "null"));
+      print("Public Message from " +
+          member.userId +
+          ": " +
+          (message.text ?? "null"));
     };
   }
 
@@ -269,7 +280,9 @@ class _BroadcastPageState extends State<ParticipantPage> {
           Align(
             child: Container(
               padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)), color: Colors.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
+                  color: Colors.white),
               child: Text(widget.userName),
             ),
             alignment: Alignment.bottomRight,
@@ -278,11 +291,13 @@ class _BroadcastPageState extends State<ParticipantPage> {
         checkIfLocalActive = true;
       } else {
         list.add(Stack(children: [
-          RtcRemoteView.SurfaceView(uid: _users[i].uid,channelId:""),
+          RtcRemoteView.SurfaceView(uid: _users[i].uid, channelId: ""),
           Align(
             child: Container(
               padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)), color: Colors.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
+                  color: Colors.white),
               child: Text(_users[i].name ?? "name error"),
             ),
             alignment: Alignment.bottomRight,
@@ -301,7 +316,9 @@ class _BroadcastPageState extends State<ParticipantPage> {
 
   /// Video view row wrapper
   Widget _expandedVideoView(List<Widget> views) {
-    final wrappedViews = views.map<Widget>((view) => Expanded(child: Container(child: view))).toList();
+    final wrappedViews = views
+        .map<Widget>((view) => Expanded(child: Container(child: view)))
+        .toList();
     return Expanded(
       child: Row(
         children: wrappedViews,
@@ -331,12 +348,18 @@ class _BroadcastPageState extends State<ParticipantPage> {
       case 3:
         return Container(
             child: Column(
-          children: <Widget>[_expandedVideoView(views.sublist(0, 2)), _expandedVideoView(views.sublist(2, 3))],
+          children: <Widget>[
+            _expandedVideoView(views.sublist(0, 2)),
+            _expandedVideoView(views.sublist(2, 3))
+          ],
         ));
       case 4:
         return Container(
             child: Column(
-          children: <Widget>[_expandedVideoView(views.sublist(0, 2)), _expandedVideoView(views.sublist(2, 4))],
+          children: <Widget>[
+            _expandedVideoView(views.sublist(0, 2)),
+            _expandedVideoView(views.sublist(2, 4))
+          ],
         ));
       default:
     }
